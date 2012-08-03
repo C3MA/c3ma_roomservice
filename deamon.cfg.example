@@ -1,0 +1,54 @@
+#
+# Das ist die neue Config
+# Achtung alles was in Python ersetzt wird im String (also %s, %d, %f oder so) muss mit %% geschrieben werden.
+# Denn normale %(name)s sind verweiße auf andere Variablen innerhalb der Sektion oder der DEFAULT Sektion.
+# Arrays oder Dicts werden in Json abgelegt. Das kann python gut verarbeiten.
+# In python kann man dann mit json.loads(config.get('sektion', 'wert')) die werte als Dict/Array bekommen
+# Für normale Strings reicht config.get('sektion', 'wert'). Es gibt aber auch getbool und getInt usw. 
+#
+
+[DEFAULT]
+wwwDir:/var/www
+dataDir:/var/raumServiceDeamon
+   
+[weather]
+rrdFile: %(dataDir)s/c3ma_temp.rrd
+graphFile: %(wwwDir)s/c3ma_temp_%%d_%%s.png
+rrdInit:[
+	"--step", "60",
+	"DS:innen:GAUGE:80:U:U",
+	"DS:aussen:GAUGE:80:U:U",
+	"RRA:AVERAGE:0.9:1:1440",
+	"RRA:AVERAGE:0.9:3:720",
+	"RRA:AVERAGE:0.9:25:605",
+	"RRA:AVERAGE:0.9:111:604",
+	"RRA:AVERAGE:0.9:223:600",
+	"RRA:AVERAGE:0.9:655:600",   
+	"RRA:AVERAGE:0.9:1317:600"
+	]
+temperature:{
+	"host": "10.23.42.60",
+	"matchpattern": "(?P<devid>[0-9]{2})(?P<cmd>[X01]{3})(?P<val>[\\-]?[0-9\\.]{5})",
+	"devices": ["*01", "*02"],
+	"command": "X01"
+	}
+
+[security]
+rrdFile: %(dataDir)s/c3ma_anwe.rrd
+graphFile: %(wwwDir)s/bewegungsmelder/c3ma_anw_%%d_%%s.png
+rrdInit:[
+	"--step", "2",
+	"DS:anwesend:GAUGE:2:0:1",
+	"DS:tuer:GAUGE:2:0:1",
+	"RRA:MAX:0.9:4:700",
+	"RRA:MAX:0.9:54:600",
+	"RRA:MAX:0.9:108:600",
+	"RRA:MAX:0.9:756:600",
+	"RRA:MAX:0.9:3348:600",
+	"RRA:MAX:0.9:6696:600",
+	"RRA:MAX:0.9:19656:600",
+	"RRA:MAX:0.9:39528:600"
+	]                 
+
+[upload]
+service_endpoint: http://www.example.com
