@@ -47,6 +47,8 @@ class UploadDeamon(Thread):
             print "Data is uploaded"
         except pycurl.error:
             print "An error occured"
+	    print params
+	    raise
         
     def run(self):
         

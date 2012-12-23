@@ -1,2 +1,3 @@
 *~
-deamon.cfg*.pyc
+deamon.cfg
+*.pyc

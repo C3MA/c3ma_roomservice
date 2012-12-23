@@ -10,7 +10,7 @@ from upload import UploadDeamon
 from security import security
 from graph import graph
 
-import rrdtool, os.path, time, ConfigParser, json, signal, sys
+import rrdtool, os.path, time, ConfigParser, json, signal, sys#, pdb
 
 def checkRRD(config):
     rrdFiles = [config.get('weather', 'rrdFile'), config.get('security', 'rrdFile')]
@@ -65,18 +65,23 @@ def main():
         signal.signal(signal.SIGTERM, kill_signal_handler)
         
         #fillDummyData(dataPool) # DEBUG
-        
+#        pdb.set_trace()
+
         t = UploadDeamon(config, dataPool)
         t.start()
+	time.sleep(2) #Quick n' Dirty-Hack, da sonst Exception
 
         tem = temperatur(config, dataPool)
         tem.start()
+	time.sleep(2)
         
         sec = security(config, dataPool, t)
         sec.start()
+	time.sleep(2)
         
         gra = graph(config)
         gra.start()
+	time.sleep(2)
         
         global ser
         ser = service(dataPool)
