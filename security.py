@@ -50,30 +50,30 @@ class security(Thread):
       self.trenshold_counter = self.trenshold_counter - 1
       self.keepalive_counter = self.keepalive_counter - 1
       if motion_detected == 1:
-#        print ('>>Motion_detected')
+        print ('>>Motion_detected')
         if self.current_state == 0:
-#          print ('>>current_state == 0')
+          print ('>>current_state == 0')
           if self.trenshold_counter <= 0:
-#            print ('>>trenshold_counter <= 0')
+            print ('>>trenshold_counter <= 0')
             self.current_state = 1
             state_changed = 1
         else:
           self.trenshold_counter = close_trenshold
-#          print ('>>current_state == 1')
+          print ('>>current_state == 1')
       else:
-#        print ('>>NO Motion_detected')
+        print ('>>NO Motion_detected')
         if self.current_state == 1:
-#          print ('>>current_state == 1')
+          print ('>>current_state == 1')
           if self.trenshold_counter <= 0:
-#            print ('>>trenshold_counter <= 0')
+            print ('>>trenshold_counter <= 0')
             self.current_state = 0
             state_changed = 1
         else:
           self.trenshold_counter = open_trenshold
-#          print ('>>current_state == 0')
+          print ('>>current_state == 0')
       if (self.lockstate != lockstate_now):
         state_changed = 1
-#        print ('>>lockstate :%i!=lockstate_now: %i' % (self.lockstate ,lockstate_now))
+        print ('>>lockstate :%i!=lockstate_now: %i' % (self.lockstate ,lockstate_now))
       self.lockstate = lockstate_now
       if ((state_changed == 1) or (self.keepalive_counter < 0)):
 	print "Sec Upload"
